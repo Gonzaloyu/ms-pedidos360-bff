@@ -25,4 +25,15 @@ public class CatalogClient {
                 .retrieve()
                 .body(String.class);
     }
+
+    // NUEVO: Permite enviar la creación de un producto al MS Catálogo
+    public String addProduct(String productJson) {
+        return restClient
+                .post()
+                .uri("/api/products")
+                .header("Content-Type", "application/json")
+                .body(productJson)
+                .retrieve()
+                .body(String.class);
+    }
 }
