@@ -18,13 +18,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // Desactivar protección CSRF
             .csrf(csrf -> csrf.disable())
-
-            // Habilitar CORS para peticiones desde Angular/API Gateway
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
-            // PERMITIR TODAS LAS RUTAS (Órdenes, Catálogo, Health) SIN AUTENTICACIÓN NI ROLES
             .authorizeHttpRequests(auth -> auth
                 .anyRequest().permitAll()
             );
@@ -35,9 +30,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
