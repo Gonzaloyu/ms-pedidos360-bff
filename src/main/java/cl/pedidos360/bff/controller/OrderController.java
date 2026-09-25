@@ -15,24 +15,31 @@ public class OrderController {
     // URL del microservicio de órdenes real en el puerto 8080
     private final String ORDERS_SERVICE_URL = "http://localhost:8080/api/orders";
 
-    // 1. Obtener todas las órdenes
+    // Obtener todas las órdenes
     @GetMapping
     public ResponseEntity<Object[]> getOrders() {
         Object[] response = restTemplate.getForObject(ORDERS_SERVICE_URL, Object[].class);
         return ResponseEntity.ok(response);
     }
 
-    // 2. Crear nueva orden
+    // Crear nueva orden
     @PostMapping
     public ResponseEntity<Object> createOrder(@RequestBody Object orderData) {
         Object response = restTemplate.postForObject(ORDERS_SERVICE_URL, orderData, Object.class);
         return ResponseEntity.ok(response);
     }
 
-    // 3. Actualizar estado de una orden
+    // Actualizar estado de una orden
     @PutMapping("/{id}/status")
     public ResponseEntity<Void> updateStatus(@PathVariable Long id, @RequestBody Object statusData) {
         restTemplate.put(ORDERS_SERVICE_URL + "/" + id + "/status", statusData);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<Object[]> getOrdersByClient(@PathVariable String clientId) {
+        String url = ORDERS_SERVICE_URL + "?clientId={clientId}";
+        Object[] response = restTemplate.getForObject(url, Object[].class, clientId);
+        return ResponseEntity.ok(response);
     }
 }

@@ -25,7 +25,13 @@ public class OrdersClient {
                 .retrieve()
                 .body(String.class);
     }
-
+    public String getOrdersByClient(String clientId) {
+        return restClient
+            .get()
+            .uri("/api/orders/client/{clientId}", clientId)
+            .retrieve()
+            .body(String.class);
+    }
     public String createOrder(String orderJson) {
         return restClient
                 .post()
