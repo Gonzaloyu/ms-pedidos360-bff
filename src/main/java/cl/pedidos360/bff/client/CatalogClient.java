@@ -26,7 +26,7 @@ public class CatalogClient {
                 .body(String.class);
     }
 
-    // NUEVO: Permite enviar la creación de un producto al MS Catálogo
+    // Permite enviar la creación de un producto al MS Catálogo
     public String addProduct(String productJson) {
         return restClient
                 .post()
