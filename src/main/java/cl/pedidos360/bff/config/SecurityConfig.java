@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/catalog/products/**").hasAnyAuthority("APPROLE_ROLE_ADMINISTRADOR", "APPROLE_ROLE_OPERADOR")
                 .requestMatchers(HttpMethod.DELETE, "/api/catalog/products/**").hasAnyAuthority("APPROLE_ROLE_ADMINISTRADOR", "APPROLE_ROLE_OPERADOR")
                 .requestMatchers(HttpMethod.PUT, "/api/orders/**").hasAuthority("APPROLE_ROLE_OPERADOR")
+                .requestMatchers("/api/admin/**").hasAuthority("APPROLE_ROLE_ADMINISTRADOR")
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt
@@ -53,7 +54,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedOrigins(List.of("http://localhost:4200", "https://18-214-163-69.sslip.io"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
